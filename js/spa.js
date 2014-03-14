@@ -22,5 +22,4 @@ var spa = (function(){
   };
 
   return { initModule: initModule };
-  //yo
-}();
+}());
