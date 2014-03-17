@@ -166,12 +166,14 @@ spa.shell = (function () {
       //
       // compare proposed state change with current and
       // adjust only necessary components that differ
-      var 
+      //
+      var
         anchor_map_previous = copyAnchorMap(),
                             anchor_map_proposed,
                             _s_chat_previous, _s_chat_proposed,
                             s_chat_proposed;
 
+      console.log("hi from hashChange %s", stateMap.anchor_map);
       // attempt to parse anchor
       try {
         anchor_map_proposed = $.uriAnchor.makeAnchorMap(); 
