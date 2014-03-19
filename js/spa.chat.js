@@ -67,6 +67,7 @@ spa.chat= (function () {
     // external
     setSliderPosition,
     removeSlider,
+    setAnchor,
 
     // module boiler plate
     handleResize,
@@ -214,7 +215,36 @@ spa.chat= (function () {
     return false;
   };
 
-  //////////// PUB
+  setAnchor = function (anchor_map_previous, anchor_map_proposed,
+      set_uri_func){
+    var is_ok;
+
+    if (!anchor_map_previous ||
+        anchor_map_previous._s_chat !== anchor_map_proposed._s_chat
+    ) {
+      switch (anchor_map_proposed.chat) {
+        case 'opened':
+        case 'closed':
+          is_ok = setSliderPosition(anchor_map_proposed.chat);
+          break;
+        default:
+          setSliderPosition('closed');
+          delete anchor_map_proposed.chat;
+          set_uri_func(anchor_map_proposed);
+      }
+    }
+    if ( ! is_ok ){
+      if ( anchor_map_previous ){
+        set_uri_func(anchor_map_previous);
+      } else {
+        delete anchor_map_proposed.chat;
+        set_uri_func(anchor_map_proposed);
+      }
+    }
+  };
+
+
+  //////////// MODULE
   //
 
   configModule = function (input_map) {
@@ -250,6 +280,7 @@ spa.chat= (function () {
     setSliderPosition : setSliderPosition,
     removeSlider : removeSlider,
     handleResize : handleResize,
+    setAnchor : setAnchor,
     configModule : configModule,
     initModule : initModule
   };

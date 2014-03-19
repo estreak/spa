@@ -51,10 +51,13 @@ spa.shell = (function () {
     },
     jqueryMap = {},
     setJqueryMap,
+
     onHashChange,
     copyAnchorMap,
     changeAnchorPart,
     setChatAnchor,
+
+    onResize,
     initModule
   ; // end configMap
 
@@ -132,52 +135,29 @@ spa.shell = (function () {
     //
     var
       anchor_map_previous = copyAnchorMap(),
-      anchor_map_proposed,
-      is_ok = true
+      anchor_map_proposed
     ;
 
-    console.log("hi from hashChange %s", stateMap.anchor_map);
     // attempt to parse anchor
     try {
-      anchor_map_proposed = $.uriAnchor.makeAnchorMap(); 
+      anchor_map_proposed = $.uriAnchor.makeAnchorMap();
     } catch (error) {
       $.uriAnchor.setAnchor(anchor_map_previous, null, true);
       return false;
     }
-    stateMap.anchor_map = anchor_map_proposed;
 
-    ////////////////  CHAT ANCHOR
-    //
-
-    if (!anchor_map_previous ||
-        anchor_map_previous._s_chat !== anchor_map_proposed._s_chat
-    ) {
-      switch (anchor_map_proposed.chat) {
-        case 'opened':
-          is_ok = spa.chat.setSliderPosition('opened');
-          break;
-        case 'closed':
-          is_ok = spa.chat.setSliderPosition('closed');
-          break;
-        default:
-          spa.chat.setSliderPosition('closed');
-          delete anchor_map_proposed.chat;
-          $.uriAnchor.setAnchor(anchor_map_proposed, null, true);
-      }
-    }
-    if ( ! is_ok ){
-      if ( anchor_map_previous ){
-        $.uriAnchor.setAnchor( anchor_map_previous, null, true );
-        stateMap.anchor_map = anchor_map_previous;
-      } else {
-        delete anchor_map_proposed.chat;
-        $.uriAnchor.setAnchor( anchor_map_proposed, null, true );
-      }
-    }
-    ///////////////
-
+    // call each module to deal with its anchor
+    // (needs a rewrite with multiple modules)
+    spa.chat.setAnchor(anchor_map_previous, anchor_map_proposed,
+        function(anchor_map) {
+          $.uriAnchor.setAnchor(anchor_map, null, true);
+          stateMap.anchor_map = anchor_map;
+        }
+    );
     return false;
+
   };
+
 
   onResize = function (){
     // 
