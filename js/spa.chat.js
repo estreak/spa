@@ -67,7 +67,7 @@ spa.chat= (function () {
     // external
     setSliderPosition,
     removeSlider,
-    setAnchor,
+    parseAnchor,
 
     // module boiler plate
     handleResize,
@@ -215,9 +215,12 @@ spa.chat= (function () {
     return false;
   };
 
-  setAnchor = function (anchor_map_previous, anchor_map_proposed,
-      set_uri_func){
-    var is_ok;
+  parseAnchor = function (anchor_map_previous, anchor_map_proposed,
+      commit_func){
+    //
+    // parse anchor for this module and commit either prev or proposed
+    //
+    var is_ok = true;
 
     if (!anchor_map_previous ||
         anchor_map_previous._s_chat !== anchor_map_proposed._s_chat
@@ -230,15 +233,15 @@ spa.chat= (function () {
         default:
           setSliderPosition('closed');
           delete anchor_map_proposed.chat;
-          set_uri_func(anchor_map_proposed);
+          commit_func(anchor_map_proposed);
       }
     }
     if ( ! is_ok ){
       if ( anchor_map_previous ){
-        set_uri_func(anchor_map_previous);
+        commit_func(anchor_map_previous);
       } else {
         delete anchor_map_proposed.chat;
-        set_uri_func(anchor_map_proposed);
+        commit_func(anchor_map_proposed);
       }
     }
   };
@@ -280,7 +283,7 @@ spa.chat= (function () {
     setSliderPosition : setSliderPosition,
     removeSlider : removeSlider,
     handleResize : handleResize,
-    setAnchor : setAnchor,
+    parseAnchor : parseAnchor,
     configModule : configModule,
     initModule : initModule
   };

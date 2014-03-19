@@ -147,8 +147,7 @@ spa.shell = (function () {
     }
 
     // call each module to deal with its anchor
-    // (needs a rewrite with multiple modules)
-    spa.chat.setAnchor(anchor_map_previous, anchor_map_proposed,
+    spa.chat.parseAnchor(anchor_map_previous, anchor_map_proposed,
         function(anchor_map) {
           $.uriAnchor.setAnchor(anchor_map, null, true);
           stateMap.anchor_map = anchor_map;
@@ -177,7 +176,7 @@ spa.shell = (function () {
   //
   setChatAnchor = function(position_type){
     //
-    // provided to the chat module to call the shell and set anchor
+    // called by the chat module to set the anchor
     //
     return changeAnchorPart({ chat : position_type });
   };
