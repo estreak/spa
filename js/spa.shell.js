@@ -14,7 +14,6 @@
 
 ///////////////// MODULE SPA.SHELL
 spa.shell = (function () {
-
   var configMap = {
     main_html : String()
       + '<div class="spa-shell-head">'
