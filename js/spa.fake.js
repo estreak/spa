@@ -39,22 +39,24 @@ spa.fake = (function () {
 
   mockSio = (function () {
     var on_sio, emit_sio, callback_map = {};
+
     on_sio = function ( msg_type, callback ) {
-    callback_map[ msg_type ] = callback;
+      callback_map[ msg_type ] = callback;
     };
+
     emit_sio = function ( msg_type /*, data*/ ) {
-    // respond to 'adduser' event with 'userupdate'
-    // callback after a 3s delay
-    //
-    if ( msg_type === 'makebet' && callback_map.betreply ) {
-    setTimeout( function () {
-      callback_map.betreply(
-        [{ _id : makeFakeBetId(),
-        result : 'ok',
-        }]
-        );
-      }, 3000 );
-    }
+      // respond to 'adduser' event with 'userupdate'
+      // callback after a 3s delay
+      //
+      if ( msg_type === 'makebet' && callback_map.betresult ) {
+      setTimeout( function () {
+        callback_map.betresult(
+          [{ _id : makeFakeBetId(),
+          result : 'ok',
+          }]
+          );
+        }, 3000 );
+      }
     };
     return { emit : emit_sio, on : on_sio };
   }());

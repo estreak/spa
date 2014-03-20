@@ -23,9 +23,11 @@ spa.model = (function () {
 
     isFakeData = true,
 
-    // API
+   
     games,
     makeGame,
+    notifyBetResult,
+    submitBet,
     initModule
   ;
 
@@ -45,11 +47,23 @@ spa.model = (function () {
 
   makeGame = function (game_map) {
     var game = new Game(game_map);
-    console.log("made game %s", game);
+    console.log('made game %s', game);
 
     stateMap.game_id_map[game.game_id] = game;
     //stateMap.game_db.insert(game);
     return game;
+  };
+
+  notifyBetResult = function(result) {
+    console.log('got bet result %s', JSON.stringify(result));
+  };
+
+  submitBet = function (bet) {
+    var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
+
+    sio.on('betresult', notifyBetResult);
+
+    sio.emit('makebet', bet);
   };
 
 
@@ -67,7 +81,8 @@ spa.model = (function () {
 
   return {
     initModule : initModule,
-    games : games
+    games : games,
+    submitBet : submitBet,
   };
 }());
 
