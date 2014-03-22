@@ -25,9 +25,15 @@
 .spa-shell-head-acct {
   top : 4px;
   right : 0;
-  width : 64px;
+  width : 210px;
   height : 32px;
-  background : green;
+  line-height : 32px;
+  background : #888;
+  color : #fff;
+  text-align : center;
+  cursor : pointer;
+  overflow : hidden;
+  text-overflow : ellipsis;
 }
 .spa-shell-head-search {
   top : 4px;
@@ -42,10 +48,16 @@
   bottom : 40px;
   right : 0;
 }
-.spa-shell-main-content,
+.spa-shell-main-content {
+  left : 400px;
+  right : 0;
+  background : #ddd;
+}
 .spa-shell-main-nav {
+  width : 400px;
   top : 0;
   bottom : 0;
+  z-index : 1;
 }
 .spa-shell-main-nav {
   width : 250px;

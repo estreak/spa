@@ -17,7 +17,10 @@ spa.shell = (function () {
   var configMap = {
     main_html : String()
       + '<div class="spa-shell-head">'
-        + '<div class="spa-shell-head-logo"></div>'
+      + '<div class="spa-shell-head-logo">'
+         + '<h1>SPA</h1>'
+         + '<p>javascript end to end</p>'
+      + '</div>'
         + '<div class="spa-shell-head-acct"></div>'
         + '<div class="spa-shell-head-search"></div>'
       + '</div>'
@@ -55,6 +58,7 @@ spa.shell = (function () {
     copyAnchorMap,
     changeAnchorPart,
     setChatAnchor,
+    onTapAcct,
 
     onResize,
     initModule
@@ -80,6 +84,9 @@ spa.shell = (function () {
     var $container = stateMap.$container;
     jqueryMap = {
       $container : $container,
+      $acct : $container.find('.spa-shell-head-acct'),
+      $nav  : $container.find('.spa-shell-main-nav'),
+      $head : $container.find('.spa-shell-main'),
     };
   };
 
@@ -122,6 +129,14 @@ spa.shell = (function () {
     }
 
     return bool_return;
+  };
+
+  onTapAcct = function (/*event*/) {
+    var username;
+    username = prompt( 'Please sign-in' );
+    console.log("got a name %s", username);
+    jqueryMap.$acct.text( '... processing ...' );
+    return false;
   };
 
   /////////// EVENT HNDLRS
@@ -202,6 +217,13 @@ spa.shell = (function () {
       chat_model      : spa.model.chat,
     });
     spa.chat.initModule(jqueryMap.$container);
+
+    // add a touch event on the account 
+    // CRASHED CHROME!
+    //jqueryMap.$acct
+    //  .text('Please sign in')
+    //  .bind('utap', onTapAcct);
+
 
     // setup URI change events _after_ all feature modules
     // this triggers the hashchange event so the module considers
